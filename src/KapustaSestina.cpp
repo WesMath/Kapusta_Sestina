@@ -25,7 +25,7 @@ int main() {
 		stops.insert(line);
 	}
 	//hardcoded path to ebook
-	ifstream corpus("book.txt");
+	ifstream corpus("MobyDick.txt");
 	//tally non-stopwords occuring at end of clauses, store in hash map
 	string word;
 	istringstream line_stream;
@@ -46,7 +46,8 @@ int main() {
 			spacePos = line.find_first_of(' ');
 			punctPos = line.find_first_of(".,!?");
 			//cout << "spacePos: " << spacePos << " punctPos: " << punctPos << endl;
-			if(spacePos == -1){
+			//cout << "Current line: " << line << endl;
+			if(spacePos == -1 || punctPos == -1){
 				if(punctPos > 0){//We have a word
 					word = line.substr(0, punctPos);
 					if(!stops.count(word)){
@@ -58,9 +59,12 @@ int main() {
 					}
 				}
 				line = "";
-			}else if(spacePos < punctPos){
-				line = line.substr(spacePos + 1, line.size());
 			}else{
+				while(spacePos < punctPos && spacePos != -1){
+					line = line.substr(spacePos + 1, line.size());
+					spacePos = line.find_first_of(' ');
+					punctPos = line.find_first_of(".,!?");
+				}
 				if(punctPos != 0){
 					word = line.substr(0, punctPos);
 					if(!stops.count(word)){
@@ -79,8 +83,10 @@ int main() {
 	map<string, int>::iterator endClauseIterator;
 	cout << "Displaying ends of clauses:" << endl;
 	for(endClauseIterator = endWordFreqs.begin(); endClauseIterator != endWordFreqs.end(); ++endClauseIterator){
-		cout << '\t' << endClauseIterator->first
+		if(endClauseIterator->second >= 25){
+			cout << '\t' << endClauseIterator->first
 		             << '\t' << endClauseIterator->second << '\n';
+		}
 	}
 	//set capacity of additional vector to size of current
 	//transfer all entries with 6 or more into it
