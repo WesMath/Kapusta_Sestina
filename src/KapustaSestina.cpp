@@ -82,17 +82,27 @@ int main() {
 	}
 	map<string, int>::iterator endClauseIterator;
 	cout << "Displaying ends of clauses:" << endl;
+	vector<string> commonWords;
 	for(endClauseIterator = endWordFreqs.begin(); endClauseIterator != endWordFreqs.end(); ++endClauseIterator){
-		if(endClauseIterator->second >= 25){
-			cout << '\t' << endClauseIterator->first
-		             << '\t' << endClauseIterator->second << '\n';
+		if(endClauseIterator->second >= 20){
+			cout << '\t' << endClauseIterator->first << '\t' << endClauseIterator->second << '\n';
+			commonWords.push_back(endClauseIterator->first);
 		}
 	}
 	//set capacity of additional vector to size of current
 	//transfer all entries with 6 or more into it
 	//Sort by size, print out top 20 entries
 	//randomly pick 6, save into String array
-	//
+	cout << "Choosing sestina words..." << endl;
+	vector<string> sestinaWords;
+	int randInt;
+	for(int i = 0; i < 6; i++){
+		//cout << commonWords.at(i) << endl << rand() % commonWords.size() << endl;
+		randInt = (rand() % commonWords.size());
+		sestinaWords.push_back(commonWords.at(randInt));
+		commonWords.erase(commonWords.begin() + randInt);
+		cout << sestinaWords.at(i) << endl;
+	}
 	cout << "Adieu..." << endl;
 	return 0;
 }
