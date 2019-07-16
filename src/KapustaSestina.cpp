@@ -7,11 +7,17 @@
 //============================================================================
 
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 int main() {
 	cout << "!!!WES HOLMAN'S SESTINA GENERATOR!!!" << endl; // prints !!!Hello World!!!
 	//Opens and reads stop words, storing them as set
+	ifstream stopwords("stopwords.txt");
+	string line;
+	while(getline(stopwords, line)){
+		cout << line << endl;
+	}
 	//hardcoded path to ebook
 	//tally non-stopwords occuring at end of clauses, store in vector
 	//set capacity of additional vector to size of current
@@ -19,5 +25,6 @@ int main() {
 	//Sort by size, print out top 20 entries
 	//randomly pick 6, save into String array
 	//
+	cout << "Adieu..." << endl;
 	return 0;
 }
